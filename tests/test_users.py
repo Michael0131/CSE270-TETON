@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "https://michael0131.github.io/CSE270-TETON/"
 
 def test_users_valid_credentials():
     response = requests.get(f"{BASE_URL}/users/", params={
