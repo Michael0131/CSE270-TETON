@@ -3,7 +3,7 @@ import requests
 BASE_URL = "https://michael0131.github.io/CSE270-TETON"
 
 def test_users_valid_credentials():
-    response = requests.get(f"{BASE_URL}/users/", params={
+    response = requests.get(f"{BASE_URL}/directorydata_service/users", params={
         "username": "admin",
         "password": "qwerty"
     })
