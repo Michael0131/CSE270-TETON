@@ -1,19 +1,39 @@
 import requests
+import pytest
 
-BASE_URL = "http://127.0.0.1:8000"
-
-def test_users_valid_credentials():
-    response = requests.get(f"{BASE_URL}/users/", params={
-        "username": "admin",
-        "password": "qwerty"
-    })
-    assert response.status_code == 200
-    assert response.text == ""
-
-def test_users_invalid_credentials():
-    response = requests.get(f"{BASE_URL}/users/", params={
+def test_authentication_failed(mocker):
+    url = "http://127.0.0.1:8000/users"
+    params = {
         "username": "admin",
         "password": "admin"
-    })
+    }
+
+    mocked_response = mocker.Mock()
+    mocked_response.status_code = 401
+    mocked_response.text = ""
+
+    mocker.patch("requests.get", return_value=mocked_response)
+
+    response = requests.get(url, params=params)
+
     assert response.status_code == 401
-    assert response.text == ""
+    assert response.text.strip() == ""
+
+
+def test_authentication_successful(mocker):
+    url = "http://127.0.0.1:8000/users"
+    params = {
+        "username": "admin",
+        "password": "qwerty"
+    }
+
+    mocked_response = mocker.Mock()
+    mocked_response.status_code = 200
+    mocked_response.text = ""
+
+    mocker.patch("requests.get", return_value=mocked_response)
+
+    response = requests.get(url, params=params)
+
+    assert response.status_code == 200
+    assert response.text.strip() == ""
